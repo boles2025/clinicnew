@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الأجندة اليومية - عيادة التغذية</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background-color: #f4f7f6; padding-top: 80px; }
+        .agenda-header { background: white; padding: 1.2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.07); display: flex; justify-content: center; align-items: center; gap: 1rem; }
+        .agenda-header input[type="date"] { border: 1px solid #ced4da; border-radius: 8px; padding: 0.5rem 1rem; font-size: 1.1rem; }
+        .visit-card-container { background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; height: 100%; }
+        .visit-card-header { padding: 1rem 1.5rem; color: white; display: flex; align-items: center; gap: 0.8rem; }
+        .visit-card-header h5 { margin-bottom: 0; font-weight: 700; }
+        .header-checkups { background: linear-gradient(135deg, #ff7e5f, #feb47b); }
+        .header-followups { background: linear-gradient(135deg, #00c6ff, #0072ff); }
+        .visits-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; padding: 1rem; max-height: 500px; overflow-y: auto; }
+        .patient-mini-card { border: 1px solid #e9ecef; border-radius: 10px; padding: 1rem; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .patient-mini-card:hover { transform: scale(1.03); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .patient-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+        .patient-name { font-size: 1.1rem; font-weight: 700; color: #343a40; }
+        .patient-actions a { color: #6c757d; text-decoration: none; margin-right: 0.5rem; font-size: 1.1rem; }
+        .patient-actions a:hover { color: #007bff; }
+        .patient-stats { display: flex; justify-content: space-around; text-align: center; font-size: 0.85rem; }
+        .stat-item .stat-value { font-weight: 700; font-size: 1rem; color: #212529; }
+        .empty-list-placeholder { text-align: center; padding: 3rem 1rem; color: #adb5bd; }
+        #patientDetailsModal .modal-header { border-bottom: none; }
+        #patientDetailsModal .modal-content { border-radius: 15px; }
+        .modal-patient-info { background-color: #f8f9fa; padding: 1rem; border-radius: 8px; }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">عيادة التغذية</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li class="nav-item"><a class="nav-link" href="patients_register.html"><i class="fas fa-user-plus"></i> تسجيل مريض</a></li>
+                    <li class="nav-item"><a class="nav-link" href="visits.html"><i class="fas fa-calendar-check"></i> المتابعات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="revenues.html"><i class="fas fa-money-bill-wave"></i> الإيرادات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+                    
+                    <li class="nav-item"><a class="nav-link" href="backup.html"><i class="fas fa-database"></i> النسخ الاحتياطي</a></li>
+                    <li class="nav-item"><a class="nav-link" href="delete.html"><i class="fas fa-trash-alt"></i> الحذف</a></li>
+                </ul>
+                
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid mt-4">
+        <div class="agenda-header mb-4 animate__animated animate__fadeInDown"><label for="agendaDate"><i class="fas fa-calendar-day"></i> عرض أجندة يوم:</label><input type="date" id="agendaDate"></div>
+        <div id="agenda-content" class="row g-4">
+            <div id="loading-spinner" class="col-12 text-center p-5"><div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div><p class="mt-2">جاري تحميل البيانات...</p></div>
+            <div id="checkups-col" class="col-md-6 d-none animate__animated animate__fadeInLeft"><div class="visit-card-container"><div class="visit-card-header header-checkups"><i class="fas fa-stethoscope fa-2x"></i><h5>كشوفات اليوم (<span id="checkups-count">0</span>)</h5></div><div class="visits-grid" id="checkupsGrid"></div></div></div>
+            <div id="followups-col" class="col-md-6 d-none animate__animated animate__fadeInRight"><div class="visit-card-container"><div class="visit-card-header header-followups"><i class="fas fa-redo-alt fa-2x"></i><h5>متابعات اليوم (<span id="followups-count">0</span>)</h5></div><div class="visits-grid" id="followupsGrid"></div></div></div>
+        </div>
+    </div>
+    
+    <!-- Patient Details Modal -->
+    <div class="modal fade" id="patientDetailsModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalPatientName">تفاصيل المريض</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-patient-info mb-3">
+                        <div class="row text-center">
+                            <div class="col-3"><strong>العمر:</strong> <span id="modalPatientAge"></span></div>
+                            <div class="col-3"><strong>الطول:</strong> <span id="modalPatientHeight"></span> سم</div>
+                            <div class="col-6"><strong>الهاتف:</strong> <span id="modalPatientPhone"></span></div>
+                        </div>
+                    </div>
+                    <h6><i class="fas fa-history"></i> سجل الزيارات الكامل</h6>
+                    <div class="table-responsive" style="max-height: 300px;">
+                        <table class="table table-sm table-striped">
+                            <thead class="table-dark sticky-top"><tr><th>التاريخ</th><th>النوع</th><th>الوزن</th><th>BMI</th><th>BF%</th><th>AMR</th></tr></thead>
+                            <tbody id="modalVisitsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="js/calendar.js"></script>
+</body>
+</html>

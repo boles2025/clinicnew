@@ -1,0 +1,417 @@
+/* أنماط عامة */
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.login-container {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.login-header h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.login-form {
+    position: relative;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #fff;
+}
+
+.form-control {
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #000;
+    border-radius: 10px;
+    padding: 12px 15px;
+    width: 100%;
+    transition: all 0.3s;
+}
+
+.form-control:focus {
+    background: rgba(255, 255, 255, 1);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+    color: #000;
+}
+
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    background: linear-gradient(to right, #ff758c, #ff7eb3);
+    border: none;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* أنماط الشاشة الرئيسية */
+.home-page {
+    padding-top: 70px; /* Add padding to body for fixed navbar */
+    background: #f0f2f5;
+}
+
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+.navbar {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.nav-link {
+    transition: all 0.3s;
+}
+
+.nav-link:hover {
+    color: #ff758c !important;
+    transform: translateY(-2px);
+}
+
+.nav-link i {
+    margin-right: 8px;
+}
+
+.welcome-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.welcome-card h2 {
+    color: #6a11cb;
+    font-weight: 700;
+}
+
+.dashboard-cards .card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    height: 100%;
+}
+
+.dashboard-cards .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card-1 {
+    background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+    color: #fff;
+}
+
+.card-2 {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+}
+
+.card-3 {
+    background: linear-gradient(135deg, #2af598 0%, #009efd 100%);
+    color: #fff;
+}
+
+.card-4 {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+    color: #333;
+}
+
+.card-5 {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    color: #fff;
+}
+
+.card-6 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: #fff;
+}
+
+.card-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.card-title {
+    font-weight: 700;
+}
+
+.welcome-message {
+    color: #6a11cb;
+    font-weight: 700;
+}
+
+/* تأثيرات للشريط الجانبي عند تصغير الشاشة */
+@media (max-width: 768px) {
+    #sidebar {
+        margin-left: -250px;
+    }
+    #sidebar.active {
+        margin-left: 0;
+    }
+    #content {
+        width: 100%;
+    }
+    #content.active {
+        width: calc(100% - 250px);
+    }
+}
+
+/* أنماط صفحة تسجيل المريض */
+.patients-page .main-card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.patients-page .card-header {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.floating-label {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.floating-label label {
+    position: absolute;
+    top: 12px;
+    right: 15px;
+    color: #6c757d;
+    transition: all 0.3s;
+    pointer-events: none;
+    background: #fff;
+    padding: 0 5px;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label,
+.floating-label select:focus + label,
+.floating-label select:not([value=""]) + label,
+.floating-label textarea:focus + label,
+.floating-label textarea:not(:placeholder-shown) + label {
+    top: -10px;
+    right: 10px;
+    font-size: 0.8rem;
+    color: #6a11cb;
+    background: #fff;
+}
+
+.floating-label input,
+.floating-label select,
+.floating-label textarea {
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ced4da;
+    transition: all 0.3s;
+    color: #000;
+}
+
+.floating-label input:focus,
+.floating-label select:focus,
+.floating-label textarea:focus {
+    border-color: #6a11cb;
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25);
+}
+
+.btn-lg {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    border-radius: 50px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.btn-lg:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* تعديلات التقويم */
+.fc {
+    font-family: 'Tajawal', sans-serif !important;
+    direction: rtl !important;
+}
+
+.fc-toolbar-title {
+    font-size: 1.2em !important;
+}
+
+.fc-col-header-cell-cushion {
+    color: #333;
+    font-weight: bold;
+}
+
+.fc-daygrid-day-number {
+    color: #333;
+}
+
+.fc-event {
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 2px 4px;
+}
+
+.fc-daygrid-event {
+    white-space: normal !important;
+}
+
+/* الكرات العائمة */
+.floating-balls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.ball {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0.7;
+    animation: float 15s infinite linear;
+}
+
+.ball-1 {
+    width: 150px;
+    height: 150px;
+    background: #ff758c;
+    top: 20%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.ball-2 {
+    width: 200px;
+    height: 200px;
+    background: #2575fc;
+    top: 60%;
+    left: 60%;
+    animation-delay: 3s;
+}
+
+.ball-3 {
+    width: 100px;
+    height: 100px;
+    background: #6a11cb;
+    top: 40%;
+    left: 40%;
+    animation-delay: 6s;
+}
+
+@keyframes float {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 50px) rotate(90deg);
+    }
+    50% {
+        transform: translate(0, 100px) rotate(180deg);
+    }
+    75% {
+        transform: translate(-50px, 50px) rotate(270deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 117, 140, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 117, 140, 0);
+    }
+}
+
+.btn-login {
+    animation: pulse-glow 2s infinite;
+}
+
+/* حركات للعناصر عند التحميل */
+.animate-delay-1 {
+    animation-delay: 0.3s !important;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.6s !important;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.9s !important;
+}
+
+/* اهتزاز عند الخطأ */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s linear;
+}

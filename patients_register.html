@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل وتعديل المرضى</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%); background-attachment: fixed; padding-top: 80px; }
+        .form-card { background: rgba(255, 255, 255, 0.4); border-radius: 16px; box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); backdrop-filter: blur(7px); -webkit-backdrop-filter: blur(7px); border: 1px solid rgba(255, 255, 255, 0.3); padding: 2rem; }
+        .form-card .card-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-bottom: 0; border-radius: 12px 12px 0 0 !important; padding: 1.2rem; }
+        .input-group-text { background-color: #e9ecef; border: 1px solid #ced4da; }
+        .form-control, .form-select { height: calc(3rem + 2px); padding: 0.75rem 1rem; }
+        .form-control:focus, .form-select:focus { box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.4); border-color: #667eea; }
+        .btn-custom-save { background: linear-gradient(45deg, #28a745, #218838); border: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-custom-save:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4); }
+        .btn-custom-view { background: linear-gradient(45deg, #007bff, #0056b3); border: none; transition: transform 0.2s, box-shadow 0.2s; }
+        .btn-custom-view:hover { transform: translateY(-3px); box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4); }
+        #toast-container { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+        .toast-notification { padding: 15px 20px; border-radius: 8px; color: white; font-size: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.2); opacity: 0; transform: translateY(20px); animation: slideIn 0.5s forwards; }
+        @keyframes slideIn { to { opacity: 1; transform: translateY(0); } }
+        .toast-notification.success { background-color: #28a745; } .toast-notification.error { background-color: #dc3545; } .toast-notification.info { background-color: #17a2b8; }
+        .modal-xl { max-width: 90%; }
+        #patientsTable thead { background-color: #343a40; color: white; }
+        #patientsTable tbody tr:hover { background-color: #f1f1f1; }
+        .action-btn { cursor: pointer; margin: 0 5px; font-size: 1.1rem; }
+        .btn-edit { color: #007bff; } .btn-delete { color: #dc3545; }
+    </style>
+</head>
+<body class="patients-page">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="home.html">عيادة التغذية</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active" href="index.html"><i class="fas fa-home"></i> الرئيسية</a></li>
+                    <li class="nav-item"><a class="nav-link" href="visits.html"><i class="fas fa-calendar-check"></i> المتابعات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="revenues.html"><i class="fas fa-money-bill-wave"></i> الإيرادات</a></li>
+                    <li class="nav-item"><a class="nav-link" href="reports.html"><i class="fas fa-chart-bar"></i> التقارير</a></li>
+                    <li class="nav-item"><a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt"></i> بحث بالتاريخ</a></li>
+                    <li class="nav-item"><a class="nav-link" href="backup.html"><i class="fas fa-database"></i> النسخ الاحتياطي</a></li>
+                    <li class="nav-item"><a class="nav-link" href="delete.html"><i class="fas fa-trash-alt"></i> الحذف</a></li>
+                </ul>
+              
+            </div>
+        </div>
+    </nav>
+
+    <div id="content" class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card form-card animate__animated animate__fadeInUp">
+                    <div class="card-header text-white text-center"><h4 class="card-title mb-0"><i class="fas fa-user-edit"></i> بيانات المريض</h4></div>
+                    <div class="card-body">
+                        <form id="patientForm">
+                            <input type="hidden" id="patientId">
+                            <div class="row g-3"><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-user"></i></span><input type="text" id="fullName" class="form-control" placeholder="الاسم بالكامل" required></div></div><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-phone"></i></span><input type="tel" id="phone" class="form-control" placeholder="رقم الهاتف" required></div></div><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-birthday-cake"></i></span><input type="number" id="age" class="form-control" placeholder="العمر" required></div></div><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-venus-mars"></i></span><select id="gender" class="form-select" required><option value="" disabled selected>اختر النوع...</option><option value="ذكر">ذكر</option><option value="أنثى">أنثى</option></select></div></div><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-ruler-vertical"></i></span><input type="number" step="0.1" id="height" class="form-control" placeholder="الطول (سم)" required></div></div><div class="col-md-4"><div class="input-group"><span class="input-group-text"><i class="fas fa-weight"></i></span><input type="number" step="0.1" id="weight" class="form-control" placeholder="الوزن الحالي (كجم)" required></div></div><div class="col-md-6"><div class="input-group"><span class="input-group-text"><i class="fas fa-notes-medical"></i></span><textarea id="medicalHistory" class="form-control" rows="3" placeholder="التاريخ المرضي (إن وجد)"></textarea></div></div><div class="col-md-6"><div class="input-group"><span class="input-group-text"><i class="fas fa-sticky-note"></i></span><textarea id="notes" class="form-control" rows="3" placeholder="ملاحظات إضافية"></textarea></div></div></div>
+                            <div class="row mt-4"><div class="col-md-4 d-grid"><button type="submit" id="saveBtn" class="btn btn-success btn-lg btn-custom-save"><i class="fas fa-save"></i> حفظ البيانات</button></div><div class="col-md-4 d-grid"><button type="button" class="btn btn-primary btn-lg btn-custom-view" data-bs-toggle="modal" data-bs-target="#patientsModal"><i class="fas fa-users"></i> عرض جميع المرضى</button></div><div class="col-md-4 d-grid"><button type="button" id="clearBtn" class="btn btn-secondary btn-lg"><i class="fas fa-eraser"></i> مسح الحقول</button></div></div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="patientsModal" tabindex="-1"><div class="modal-dialog modal-xl"><div class="modal-content"><div class="modal-header bg-dark text-white"><h5 class="modal-title" id="patientsModalLabel">جميع المرضى المسجلين</h5><button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="table-responsive"><table id="patientsTable" class="table table-striped table-hover align-middle"><thead><tr><th>الاسم</th><th>الهاتف</th><th>العمر</th><th>النوع</th><th>تاريخ التسجيل</th><th>إجراءات</th></tr></thead><tbody id="patientsTableBody"><tr><td colspan="6" class="text-center">جاري تحميل البيانات...</td></tr></tbody></table></div></div></div></div></div>
+
+    <div id="toast-container"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase v8 (Compat) SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    
+    <!-- Your custom JS file for patient logic -->
+    <script src="js/patients.js"></script>
+</body>
+</html>

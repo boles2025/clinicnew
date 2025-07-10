@@ -1,0 +1,46 @@
+/* حركات إضافية */
+@keyframes pulse-glow {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 117, 140, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 117, 140, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 117, 140, 0);
+    }
+}
+
+.btn-login {
+    animation: pulse-glow 2s infinite;
+}
+
+/* حركات للعناصر عند التحميل */
+.animate-delay-1 {
+    animation-delay: 0.3s !important;
+}
+
+.animate-delay-2 {
+    animation-delay: 0.6s !important;
+}
+
+.animate-delay-3 {
+    animation-delay: 0.9s !important;
+}
+
+/* اهتزاز عند الخطأ */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-5px);
+    }
+    20%, 40%, 60%, 80% {
+        transform: translateX(5px);
+    }
+}
+
+.shake {
+    animation: shake 0.5s linear;
+}

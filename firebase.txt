@@ -1,0 +1,12 @@
+const firebaseConfig = {
+      apiKey: "AIzaSyB4YatKHj5oLfGjEKRrw9hDiCYGw779jNk",
+      authDomain: "nutrition-clinic-8b6c1.firebaseapp.com",
+      databaseURL: "https://nutrition-clinic-8b6c1-default-rtdb.firebaseio.com",
+      projectId: "nutrition-clinic-8b6c1",
+      storageBucket: "nutrition-clinic-8b6c1.appspot.com",
+      messagingSenderId: "19162768170",
+      appId: "1:19162768170:web:3ba6a7f0b010a9b54cf453"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
